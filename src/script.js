@@ -52,12 +52,16 @@ function render() {
     item.style.top = top + motion.y + "px";
     item.style.left = left + motion.x + "px";
 
-    if ((top < 0 && motion.y < 0 || top > height - item.clientHeight && motion.y > 0) && !onBounce("v")) {
+    if ((top < 0 && motion.y < 0 || top > height - item.clientHeight && motion.y > 0)) {
+        onBounce()
+
         motion.y *= -1;
         item.style.top = Math.min(height - item.clientHeight - motion.y, Math.max(0, top + motion.y)) + "px";
     }
 
-    if ((left < 0 && motion.x < 0 || left > width - item.clientWidth && motion.x > 0) && !onBounce("h")) {
+    if ((left < 0 && motion.x < 0 || left > width - item.clientWidth && motion.x > 0)) {
+        onBounce()
+
         motion.x *= -1;
         item.style.left = Math.min(width - item.clientWidth - motion.x, Math.max(0, left + motion.x)) + "px";
     }
