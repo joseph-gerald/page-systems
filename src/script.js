@@ -6,8 +6,6 @@ let nextFont = "mono";
 let width = window.innerWidth;
 let height = window.innerHeight;
 
-let excempt = "";
-
 const motion = {
     x: Math.sign(Math.random() - 0.5),
     y: Math.sign(Math.random() - 0.5)
@@ -21,11 +19,7 @@ function loadGFont(font) {
     document.head.innerHTML += `<link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=${font}:wght@400;500;600,800&display=swap">`;
 }
 
-function onBounce(origin) {
-    if (excempt == origin && origin == "h") return true;
-
-    excempt = origin;
-
+function onBounce() {
     const font = fonts[Math.floor(Math.random() * fonts.length)];
 
     item.style.transitionDuration = "0.1s";
@@ -58,12 +52,12 @@ function render() {
     item.style.top = top + motion.y + "px";
     item.style.left = left + motion.x + "px";
 
-    if ((top < 0 || top > height - item.clientHeight) && !onBounce("v")) {
+    if ((top < 0 && motion.y < 0 || top > height - item.clientHeight && motion.y > 0) && !onBounce("v")) {
         motion.y *= -1;
         item.style.top = Math.min(height - item.clientHeight - motion.y, Math.max(0, top + motion.y)) + "px";
     }
 
-    if ((left < 0 || left > width - item.clientWidth) && !onBounce("h")) {
+    if ((left < 0 && motion.x < 0 || left > width - item.clientWidth && motion.x > 0) && !onBounce("h")) {
         motion.x *= -1;
         item.style.left = Math.min(width - item.clientWidth - motion.x, Math.max(0, left + motion.x)) + "px";
     }
