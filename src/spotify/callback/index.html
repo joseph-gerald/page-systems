@@ -1,0 +1,94 @@
+<html lang="en">
+<script src="chrome-extension://pgojnojmmhpofjgdmaebadhbocahppod/assets/inject/solvedCallback.js"></script>
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title></title>
+    <script src="https://cdn.tailwindcss.com"></script><capsolver-widgets></capsolver-widgets>
+    <script src="../tailwind.config.js"></script>
+
+    <link rel="stylesheet" href="style.css">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+    <link rel="stylesheet"
+        href="https://fonts.googleapis.com/css?family=Sometype Mono:wght@400;500,600,700,800&amp;display=swap">
+</head>
+
+<body class="font-body text-text bg-background min-h-screen overflow-y-hidden">
+    <div id="main" class="container mx-auto min-h-screen flex flex-col items-center justify-center">
+        <div id="container" class="w-full max-w-[730px] px-5 flex items-center">
+            <div class="w-full">            
+                <h4 class="text-lg font-bold">
+                    Authorization URL Builder
+                </h4>
+
+                <div class="border border-border text-xs bg-highlight text-text px-2 py-1.5 rounded-md mt-3">
+                    <h5 class="text-md font-bold mb-2">SPOTIFY</h5>
+                    <input type="text" id="client-id" class="border border-border bg-background text-text px-2 py-1.5 rounded-md w-full outline-none" placeholder="client_id">
+                    <input type="text" id="scope" class="border border-border bg-background text-text px-2 py-1.5 rounded-md w-full outline-none" placeholder="scope">
+                    <input type="text" id="redirect_uri" class="border border-border bg-background text-text px-2 py-1.5 rounded-md w-full outline-none" placeholder="redirect_uri">
+
+                    <hr class="border border-border my-2">
+
+                    <div class="border border-border bg-background px-2 py-1.5 rounded-md ">
+                        <div class="flex justify-evenly mt-0.5">
+                            <h5 class="text-md font-bold mb-2 text-left flex-1">URL</h5>
+    
+                            <div id="open-url" class="flex-1 text-center cursor-pointer hover:font-bold">
+                                Open URL
+                            </div>
+    
+                            <div id="copy-url" class="flex-1 text-right cursor-pointer hover:font-bold">
+                                Copy URL
+                            </div>
+                        </div>
+                        <hr class="border border-border opacity-50 mb-1.5">
+                        <textarea id="output" class="bg-background text-text w-full h-32 outline-none" placeholder="https://accounts.spotify.com/en/login?continue=htt..." readonly=""></textarea>
+                    </div>
+                </div>
+
+                <script>
+                    const client_id = document.getElementById('client-id');
+                    const scope = document.getElementById('scope');
+                    const redirect_uri = document.getElementById('redirect_uri');
+
+                    const open_url = document.getElementById('open-url');
+                    const copy_url = document.getElementById('copy-url');
+
+                    function setOutput() {
+                        const url = new URL('https://accounts.spotify.com/authorize');
+                        url.searchParams.append('response_type', 'code');
+                        url.searchParams.append('client_id', client_id.value);
+                        url.searchParams.append('redirect_uri', redirect_uri.value);
+                        url.searchParams.append('scope', scope.value);
+                        document.getElementById('output').value = url.href;
+                    }
+
+                    client_id.addEventListener('input', setOutput);
+                    scope.addEventListener('input', setOutput);
+                    redirect_uri.addEventListener('input', setOutput);
+
+                    open_url.addEventListener('click', () => {
+                        window.open(document.getElementById('output').value, '_blank');
+                    });
+
+                    copy_url.addEventListener('click', () => {
+                        navigator.clipboard.writeText(document.getElementById('output').value);
+                        copy_url.innerText = 'Copied!';
+
+                        setTimeout(() => {
+                            copy_url.innerText = 'Copy URL';
+                        }, 250);
+                    });
+                </script>
+            </div>
+        </div>
+    </div>
+    <script>
+    </script>
+
+</body>
+
+</html>
