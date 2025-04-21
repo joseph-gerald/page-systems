@@ -19,69 +19,83 @@
 <body class="font-body text-text bg-background min-h-screen overflow-y-hidden">
     <div id="main" class="container mx-auto min-h-screen flex flex-col items-center justify-center">
         <div id="container" class="w-full max-w-[730px] px-5 flex items-center">
-            <div class="w-full">            
+            <div class="w-full">
                 <h4 class="text-lg font-bold">
-                    Authorization URL Builder
+                    Spotify Callback
                 </h4>
 
-                <div class="border border-border text-xs bg-highlight text-text px-2 py-1.5 rounded-md mt-3">
-                    <h5 class="text-md font-bold mb-2">SPOTIFY</h5>
-                    <input type="text" id="client-id" class="border border-border bg-background text-text px-2 py-1.5 rounded-md w-full outline-none" placeholder="client_id">
-                    <input type="text" id="scope" class="border border-border bg-background text-text px-2 py-1.5 rounded-md w-full outline-none" placeholder="scope">
-                    <input type="text" id="redirect_uri" class="border border-border bg-background text-text px-2 py-1.5 rounded-md w-full outline-none" placeholder="redirect_uri">
+                <div class="border border-border text-xs bg-highlight text-text p-1.5 rounded-md mt-3 gap-1.5 grid grid-cols-4">
+                    <input type="text" value="code" class="border border-border bg-background text-text px-2 py-1.5 rounded-md w-full outline-none" placeholder="code" readonly>
+                    <input type="text" id="code" class="border border-border bg-background text-text px-2 py-1.5 rounded-md w-full outline-none col-span-3" placeholder="code" readonly>
 
-                    <hr class="border border-border my-2">
+                    <input type="text" value="state" class="border border-border bg-background text-text px-2 py-1.5 rounded-md w-full outline-none" placeholder="code" readonly>
+                    <input type="text" id="state" class="border border-border bg-background text-text px-2 py-1.5 rounded-md w-full outline-none col-span-3" placeholder="state" readonly>
 
-                    <div class="border border-border bg-background px-2 py-1.5 rounded-md ">
-                        <div class="flex justify-evenly mt-0.5">
-                            <h5 class="text-md font-bold mb-2 text-left flex-1">URL</h5>
-    
-                            <div id="open-url" class="flex-1 text-center cursor-pointer hover:font-bold">
-                                Open URL
-                            </div>
-    
-                            <div id="copy-url" class="flex-1 text-right cursor-pointer hover:font-bold">
-                                Copy URL
-                            </div>
-                        </div>
-                        <hr class="border border-border opacity-50 mb-1.5">
-                        <textarea id="output" class="bg-background text-text w-full h-32 outline-none" placeholder="https://accounts.spotify.com/en/login?continue=htt..." readonly=""></textarea>
-                    </div>
+                    <input type="text" value="access-token" class="border border-border bg-background text-text px-2 py-1.5 rounded-md w-full outline-none" placeholder="code" readonly>
+                    <input type="text" id="access-token" class="border border-border bg-background text-text px-2 py-1.5 rounded-md w-full outline-none col-span-3" placeholder="access-token" readonly>
+
+                    <input type="text" value="refresh-token" class="border border-border bg-background text-text px-2 py-1.5 rounded-md w-full outline-none" placeholder="code" readonly>
+                    <input type="text" id="refresh-token" class="border border-border bg-background text-text px-2 py-1.5 rounded-md w-full outline-none col-span-3" placeholder="refresh_token" readonly>
                 </div>
 
                 <script>
-                    const client_id = document.getElementById('client-id');
-                    const scope = document.getElementById('scope');
-                    const redirect_uri = document.getElementById('redirect_uri');
+                    const codeInput = document.getElementById('code');
+                    const stateInput = document.getElementById('state');
 
-                    const open_url = document.getElementById('open-url');
-                    const copy_url = document.getElementById('copy-url');
+                    const accessTokenInput = document.getElementById('access-token');
+                    const refreshTokenInput = document.getElementById('refresh-token');
 
-                    function setOutput() {
-                        const url = new URL('https://accounts.spotify.com/authorize');
-                        url.searchParams.append('response_type', 'code');
-                        url.searchParams.append('client_id', client_id.value);
-                        url.searchParams.append('redirect_uri', redirect_uri.value);
-                        url.searchParams.append('scope', scope.value);
-                        document.getElementById('output').value = url.href;
+                    const params = new URLSearchParams(window.location.search);
+
+                    const code = params.get('code');
+                    const state = params.get('state');
+
+                    async function requestAccessToken(code, clientId, clientSecret, redirectUri) {
+                        const res = await fetch("https://accounts.spotify.com/api/token", {
+                            method: "POST",
+                            body: new URLSearchParams({
+                                code: code,
+                                redirect_uri: redirectUri,
+                                grant_type: 'authorization_code'
+                            }),
+                            headers: {
+                                'content-type': 'application/x-www-form-urlencoded',
+                                'Authorization': 'Basic ' + btoa(clientId + ':' + clientSecret)
+                            }
+                        })
+
+                        const json = await res.json();
+
+                        if (res.ok) {
+                            return json;
+                        } else {
+                            throw new Error(json.error_description || 'Failed to fetch access token');
+                        }
                     }
 
-                    client_id.addEventListener('input', setOutput);
-                    scope.addEventListener('input', setOutput);
-                    redirect_uri.addEventListener('input', setOutput);
+                    codeInput.value = code;
+                    stateInput.value = state;
 
-                    open_url.addEventListener('click', () => {
-                        window.open(document.getElementById('output').value, '_blank');
-                    });
+                    accessTokenInput.value = 'loading...';
+                    refreshTokenInput.value = 'loading...';
 
-                    copy_url.addEventListener('click', () => {
-                        navigator.clipboard.writeText(document.getElementById('output').value);
-                        copy_url.innerText = 'Copied!';
+                    const clientId = '77a5fb96684d44de895c40f8d4878e61';
+                    const clientSecret = 'f0423e8296d7489eacb9698c59818698';
+                    const redirectUri = 'http://127.0.0.1:5500/src/spotify/callback/';
 
-                        setTimeout(() => {
-                            copy_url.innerText = 'Copy URL';
-                        }, 250);
-                    });
+                    (async () => {
+                        requestAccessToken(code, clientId, clientSecret, redirectUri)
+                        .then(json => {
+                            accessTokenInput.value = json.access_token;
+                            refreshTokenInput.value = json.refresh_token;
+                            stateInput.value = json.state;
+                        })
+                        .catch(error => {
+                            [accessTokenInput, refreshTokenInput].forEach(el => {
+                                el.value = error.message;
+                            });
+                        });
+                    })();
                 </script>
             </div>
         </div>
