@@ -102,7 +102,7 @@
         "Of all those in the army close to the commander none is more intimate than the secret agent; of all rewards none more liberal than those given to secret agents; of all matters none is more confidential than those relating to secret operations.",
         "Secret operations are essential in war; upon them the army relies to make its every move."];
 
-    const DAY_OF_THE_YEAR = Math.floor(Math.random() * QUOTES.length)  // new Date().getDate() + (new Date().getMonth() * 31);
+    const DAY_OF_THE_YEAR = new Date().getDate() + (new Date().getMonth() * 31);
     const quoteOfTheDay = QUOTES[DAY_OF_THE_YEAR % QUOTES.length];
     const quoteElm = document.getElementById("quote");
 
