@@ -49,10 +49,10 @@
         <p id="quote">
 
         </p>
-        <p style="margin-top: 10px;">
-            - Sun Tzu
-        </p>
     </div>
+    <p style="margin-top: 10px; font-size: 30px; position: absolute; bottom: 40px; left: 40px;">
+        - Sun Tzu
+    </p>
 </body>
 <script>
     const QUOTES = ["All warfare is based on deception. Hence, when we are able to attack, we must seem unable; when using our forces, we must appear inactive; when we are near, we must make the enemy believe we are far away; when far away, we must make him believe we are near.",
@@ -108,7 +108,7 @@
 
     quoteElm.innerText = quoteOfTheDay;
 
-    const DYNAMIC_FONT_SIZE = (40 - Math.sqrt(Math.round(quoteOfTheDay.length))) + "px";
+    const DYNAMIC_FONT_SIZE = (50 - Math.sqrt(Math.round(quoteOfTheDay.length * 3))) + "px";
 
     quoteElm.style.fontSize = DYNAMIC_FONT_SIZE;
 </script>
