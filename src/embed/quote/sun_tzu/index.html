@@ -100,7 +100,7 @@
 </style>
 <script>
     const QUOTES = ["All warfare is based on deception. Hence, when we are able to attack, we must seem unable; when using our forces, we must appear inactive; when we are near, we must make the enemy believe we are far away; when far away, we must make him believe we are near.",
-        "If your enemy is secure at all points, be prepared for him. If he is in superior strength, evade him. If your opponent is temperamental, seek to irritate him. Pretend to be weak, that he may grow arrogant. If he is taking his ease, give him no rest. If his forces are united, separate them. Attack him where he is unprepared, appear where you are not expected.",
+        // "If your enemy is secure at all points, be prepared for him. If he is in superior strength, evade him. If your opponent is temperamental, seek to irritate him. Pretend to be weak, that he may grow arrogant. If he is taking his ease, give him no rest. If his forces are united, separate them. Attack him where he is unprepared, appear where you are not expected.",
         "Hold out baits to entice the enemy. Feign disorder, and crush him.",
         "The art of war is of vital importance to the State. It is a matter of life and death, a road either to safety or to ruin. Hence it is a subject of inquiry which can on no account be neglected.",
         "The general who wins the battle makes many calculations in his temple before the battle is fought. The general who loses makes but few calculations beforehand.",
@@ -119,7 +119,7 @@
         "Victorious warriors win first and then go to war, while defeated warriors go to war first and then seek to win.",
         "To see victory only when it is within the ken of the common herd is not the acme of excellence.",
         "One defends when his strength is inadequate, he attacks when it is abundant.",
-        "The good fighters of old first put themselves beyond the possibility of defeat, and then waited for an opportunity of defeating the enemy. To secure ourselves against defeat lies in our own hands, but the opportunity of defeating the enemy is provided by the enemy himself. Thus the good fighter is able to secure himself against defeat, but cannot make certain of defeating the enemy.",
+        // "The good fighters of old first put themselves beyond the possibility of defeat, and then waited for an opportunity of defeating the enemy. To secure ourselves against defeat lies in our own hands, but the opportunity of defeating the enemy is provided by the enemy himself. Thus the good fighter is able to secure himself against defeat, but cannot make certain of defeating the enemy.",
         "Management of many is the same as management of few. It is a matter of organization.",
         "When torrential water tosses boulders, it is because of its momentum. When the strike of a hawk breaks the body of its prey, it is because of timing.",
         "The quality of decision is like the well-timed swoop of a falcon which enables it to strike and destroy its victim.",
@@ -140,7 +140,7 @@
         "If our soldiers are not overburdened with money, it is not because they have a distaste for riches; if their lives are not unduly long, it is not because they are disinclined to longevity.",
         "Speed is the essence of war. Take advantage of the enemy's unpreparedness; travel by unexpected routes and strike him where he has taken no precautions.",
         "Bestow rewards without respect to customary practice; publish orders without respect to precedent. Thus you may employ the entire army as you would one man.",
-        "Move not unless you see an advantage; use not your troops unless there is something to be gained; fight not unless the position is critical. No ruler should put troops into the field merely to gratify his own spleen; no general should fight a battle simply out of pique. If it is to your advantage, make a forward move; if not, stay where you are. Anger may in time change to gladness; vexation may be succeeded by content. But a kingdom that has once been destroyed can never come again into being; nor can the dead ever be brought back to life. Hence the enlightened ruler is heedful, and the good general full of caution. This is the way to keep a country at peace and an army intact.",
+        // "Move not unless you see an advantage; use not your troops unless there is something to be gained; fight not unless the position is critical. No ruler should put troops into the field merely to gratify his own spleen; no general should fight a battle simply out of pique. If it is to your advantage, make a forward move; if not, stay where you are. Anger may in time change to gladness; vexation may be succeeded by content. But a kingdom that has once been destroyed can never come again into being; nor can the dead ever be brought back to life. Hence the enlightened ruler is heedful, and the good general full of caution. This is the way to keep a country at peace and an army intact.",
         "It is essential to seek out enemy agents who have come to conduct espionage against you and to bribe them to serve you. Give them instructions and care for them. Thus doubled agents are recruited and used.",
         "Now the reason the enlightened prince and the wise general conquer the enemy whenever they move and their achievements surpass those of ordinary men is foreknowledge.",
         "Of all those in the army close to the commander none is more intimate than the secret agent; of all rewards none more liberal than those given to secret agents; of all matters none is more confidential than those relating to secret operations.",
@@ -152,9 +152,10 @@
 
     quoteElm.innerText = quoteOfTheDay;
 
-    const DYNAMIC_FONT_SIZE = ((50 - Math.sqrt(Math.round(quoteOfTheDay.length * 3)))) * (window.innerWidth / 1920 * 2) + "px";
-
-    quoteElm.style.fontSize = DYNAMIC_FONT_SIZE;
+    setInterval(() => {
+        const DYNAMIC_FONT_SIZE = ((50 - Math.sqrt(Math.round(quoteOfTheDay.length * 3)))) * (window.innerWidth / 1920 * 2) + "px";
+        quoteElm.style.fontSize = DYNAMIC_FONT_SIZE;
+    }, 50);
 </script>
 
 </html>
